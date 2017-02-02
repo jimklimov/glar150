@@ -37,9 +37,12 @@ static int
 s_handle_console (zloop_t *loop, zmq_pollitem_t *item, void *arg)
 {
     char command [1024];
+    zsys_debug("Passing s_handle_console()...\n", command);
     if (fgets (command, sizeof (command), stdin)) {
         //  Discard final newline
+        assert (command[0] != '\0');
         command [strlen (command) - 1] = 0;
+        zsys_debug("Got command: '%s'\n", command);
         if (*command)
             zstr_send ((zsock_t *)arg, command);
     }
